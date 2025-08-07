@@ -1,0 +1,25 @@
+
+services:
+  flask-app:
+    build:
+      context: .
+      dockerfile: python.Dockerfile
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:admin@postgres-db:5432/bd_aplicacao
+    depends_on:
+      - postgres-db
+
+  postgres-db:
+    build:
+      context: .
+      dockerfile: postgres.Dockerfile
+    container_name: postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: bd_aplicacao
+    ports:
+      - "5433:5432"
